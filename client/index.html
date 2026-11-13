@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="robots" content="noindex, follow" />
+    <meta name="description" content="Growvanta CRM - lead generation, distribution and sales pipeline management." />
+    <meta name="color-scheme" content="light dark" />
+    <meta name="theme-color" content="#0d1b2a" />
+    <title>Growvanta CRM</title>
+    <link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+    <link rel="icon" href="/favicon-64.png" sizes="64x64" type="image/png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png" />
+    <!-- Applies the saved theme before first paint so a dark-theme user never
+         sees a white flash. A file rather than an inline script, as in the PHP
+         edition, so the Content-Security-Policy can stay script-src 'self'. -->
+    <script src="/js/theme-boot.js"></script>
+  </head>
+  <body>
+    <div id="root">
+      <div class="page-loader" style="width: 100%">
+        <span class="spinner lg"></span>
+        <span class="muted">Loading Growvanta CRM…</span>
+      </div>
+    </div>
+    <noscript>
+      <div style="padding: 40px; text-align: center; font-family: system-ui">
+        <h1>JavaScript is required</h1>
+        <p>Growvanta CRM is an interactive application and needs JavaScript enabled.</p>
+      </div>
+    </noscript>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

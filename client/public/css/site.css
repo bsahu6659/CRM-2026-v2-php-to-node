@@ -1,0 +1,594 @@
+/* ===========================================================================
+   Growvanta CRM - public site
+
+   The marketing pages (home, privacy, terms) share this file. They are plain
+   HTML served straight off disk, outside the app shell: someone reading the
+   privacy policy has not signed in, may never sign in, and should not have to
+   download an application to read a page of text.
+
+   The palette is the one presentation.html established, kept here so the two
+   never drift apart.
+   =========================================================================== */
+
+:root {
+  --ground:      #F7F8F6;
+  --surface:     #FFFFFF;
+  --surface-2:   #EEF1EC;
+  --ink:         #101A14;
+  --ink-2:       #33453C;
+  --ink-3:       #5A6B62;
+  --line:        #DCE2DB;
+  --line-2:      #E9EDE7;
+  --accent:      #0E7C4A;
+  --accent-2:    #0A5C37;
+  --accent-soft: #E2F2E8;
+  --on-accent:   #FFFFFF;
+  --spark:       #35E06F;
+  --amber:       #A8680A;
+  --amber-soft:  #FBF0DC;
+
+  --wrap: 1120px;
+  --step-0: 1rem;
+  --step-1: 1.1875rem;
+  --step-2: 1.5rem;
+  --step-3: 2.125rem;
+  --step-4: clamp(2.25rem, 5.2vw, 3.9rem);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --ground:      #0A120E;
+    --surface:     #111C16;
+    --surface-2:   #16241C;
+    --ink:         #E8EFE9;
+    --ink-2:       #B4C4B9;
+    --ink-3:       #849489;
+    --line:        #223229;
+    --line-2:      #1B2921;
+    --accent:      #3FBF7B;
+    --accent-2:    #63D694;
+    --accent-soft: #14301F;
+    --on-accent:   #05140C;
+    --amber:       #DCA857;
+    --amber-soft:  #322312;
+  }
+}
+:root[data-theme="dark"] {
+  --ground:      #0A120E;
+  --surface:     #111C16;
+  --surface-2:   #16241C;
+  --ink:         #E8EFE9;
+  --ink-2:       #B4C4B9;
+  --ink-3:       #849489;
+  --line:        #223229;
+  --line-2:      #1B2921;
+  --accent:      #3FBF7B;
+  --accent-2:    #63D694;
+  --accent-soft: #14301F;
+  --on-accent:   #05140C;
+  --amber:       #DCA857;
+  --amber-soft:  #322312;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+body {
+  margin: 0;
+  background: var(--ground);
+  color: var(--ink);
+  font-family: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  font-size: var(--step-0);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+img { max-width: 100%; display: block; }
+
+h1, h2, h3, h4, .display {
+  font-family: Archivo, ui-sans-serif, system-ui, sans-serif;
+  text-wrap: balance;
+  letter-spacing: -0.021em;
+  line-height: 1.1;
+  margin: 0;
+}
+
+a { color: var(--accent); text-underline-offset: 3px; }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+.mono {
+  font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ------------------------------------------------------------ structure --- */
+
+.wrap {
+  max-width: var(--wrap);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+.wrap--narrow { max-width: 760px; }
+
+.band { padding-block: clamp(3rem, 6.5vw, 5.5rem); }
+.band--tint { background: var(--surface-2); }
+.band--edge { border-top: 1px solid var(--line); }
+
+.eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+.eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+.lede {
+  font-size: var(--step-1);
+  color: var(--ink-2);
+  max-width: 62ch;
+}
+
+/* ------------------------------------------------------------------ nav --- */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: color-mix(in srgb, var(--ground) 88%, transparent);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--line);
+}
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 70px;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-family: Archivo, sans-serif;
+  font-weight: 700;
+  font-size: 1.08rem;
+  color: var(--ink);
+  text-decoration: none;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+.nav__links {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-left: auto;
+  flex-wrap: wrap;
+}
+.nav__links a:not(.btn) {
+  color: var(--ink-2);
+  text-decoration: none;
+  font-size: 0.94rem;
+  padding: 8px 11px;
+  border-radius: 8px;
+}
+.nav__links a:not(.btn):hover { background: var(--surface-2); color: var(--ink); }
+
+/* On a phone the section links are noise - the two buttons are what matter. */
+@media (max-width: 880px) {
+  .nav__links a.nav__section { display: none; }
+  .nav__inner { min-height: 60px; }
+}
+
+/* At phone width the brand, "Sign in" and "Start free" only fit on one line if
+   nothing is allowed to wrap and everything gives up a little padding. Left to
+   itself the row grew to two lines and the buttons sat on top of the wordmark. */
+@media (max-width: 560px) {
+  .nav__inner { gap: 10px; }
+  .brand { font-size: 0.94rem; }
+  .nav__links { gap: 6px; flex-wrap: nowrap; }
+  .nav__links .btn { padding: 7px 11px; font-size: 0.84rem; }
+}
+
+/* --------------------------------------------------------------- button --- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  font-size: 0.96rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.btn:hover { transform: translateY(-1px); }
+.btn--primary {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: var(--on-accent);
+  box-shadow: 0 1px 2px rgba(0,0,0,.14);
+}
+.btn--sm { padding: 8px 14px; font-size: 0.9rem; }
+.btn--lg { padding: 15px 26px; font-size: 1.02rem; }
+
+/* ----------------------------------------------------------------- hero --- */
+
+.hero { padding-block: clamp(3rem, 7vw, 6rem) clamp(2.5rem, 5vw, 4rem); }
+.hero h1 { font-size: var(--step-4); margin-bottom: 20px; }
+.hero .lede { font-size: clamp(1.05rem, 2.2vw, 1.3rem); }
+
+.hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+  align-items: center;
+}
+.hero__note {
+  font-size: 0.9rem;
+  color: var(--ink-3);
+  margin-top: 16px;
+}
+
+/* ---------------------------------------------------------------- cards --- */
+
+.grid {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+  margin-top: 36px;
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+}
+.card h3 { font-size: var(--step-1); margin-bottom: 9px; }
+.card p { margin: 0; color: var(--ink-2); font-size: 0.96rem; }
+
+.card__icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--accent-soft);
+  color: var(--accent);
+  display: grid; place-items: center;
+  margin-bottom: 16px;
+}
+.card__icon svg { width: 19px; height: 19px; }
+
+/* Numbered steps for "how the trial works". */
+.steps { counter-reset: step; }
+.steps .card { position: relative; padding-top: 26px; }
+.steps .card::before {
+  counter-increment: step;
+  content: counter(step);
+  position: absolute;
+  top: -13px; left: 24px;
+  width: 27px; height: 27px;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--on-accent);
+  display: grid; place-items: center;
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+/* --------------------------------------------------------------- tables --- */
+
+.table-scroll { overflow-x: auto; margin-top: 28px; }
+table.plain {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+  min-width: 460px;
+}
+table.plain th, table.plain td {
+  text-align: left;
+  padding: 13px 14px;
+  border-bottom: 1px solid var(--line-2);
+  vertical-align: top;
+}
+table.plain th {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+}
+
+/* ----------------------------------------------------------------- note --- */
+
+.note {
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  background: var(--surface);
+  border-radius: 0 12px 12px 0;
+  padding: 18px 22px;
+  margin: 28px 0;
+}
+.note--warn { border-left-color: var(--amber); background: var(--amber-soft); }
+.note p:last-child { margin-bottom: 0; }
+.note p:first-child { margin-top: 0; }
+
+/* ------------------------------------------------------------ legal doc --- */
+
+.doc { padding-block: clamp(2.5rem, 5vw, 4rem); }
+.doc h1 { font-size: clamp(2rem, 4.5vw, 2.9rem); margin-bottom: 14px; }
+.doc h2 {
+  font-size: var(--step-2);
+  margin-top: 46px;
+  margin-bottom: 14px;
+  padding-top: 22px;
+  border-top: 1px solid var(--line);
+}
+.doc h3 { font-size: 1.08rem; margin-top: 28px; margin-bottom: 8px; }
+.doc p, .doc li { color: var(--ink-2); }
+.doc p { margin: 0 0 15px; }
+.doc ul, .doc ol { margin: 0 0 15px; padding-left: 22px; }
+.doc li { margin-bottom: 8px; }
+.doc strong { color: var(--ink); }
+
+.doc__meta {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.78rem;
+  color: var(--ink-3);
+  margin-bottom: 30px;
+}
+
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 40px;
+}
+.toc h2 {
+  font-size: 0.74rem;
+  font-family: "JetBrains Mono", monospace;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  border: 0;
+  margin: 0 0 12px;
+  padding: 0;
+}
+.toc ol { margin: 0; padding-left: 20px; }
+.toc li { margin-bottom: 6px; }
+.toc a { text-decoration: none; }
+.toc a:hover { text-decoration: underline; }
+
+/* --------------------------------------------------------------- footer --- */
+
+.foot {
+  border-top: 1px solid var(--line);
+  background: var(--surface-2);
+  padding-block: 44px 30px;
+  margin-top: 10px;
+}
+.foot__grid {
+  display: grid;
+  gap: 30px;
+  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+}
+.foot h4 {
+  font-family: "JetBrains Mono", monospace;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+  font-weight: 500;
+  margin-bottom: 13px;
+}
+.foot ul { list-style: none; margin: 0; padding: 0; }
+.foot li { margin-bottom: 9px; }
+.foot a { color: var(--ink-2); text-decoration: none; font-size: 0.95rem; }
+.foot a:hover { color: var(--accent); }
+.foot__bar {
+  margin-top: 36px;
+  padding-top: 20px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  justify-content: space-between;
+  font-size: 0.87rem;
+  color: var(--ink-3);
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+}
+.skip:focus {
+  left: 12px; top: 12px;
+  z-index: 50;
+  background: var(--surface);
+  border: 1px solid var(--accent);
+  padding: 10px 16px;
+  border-radius: 8px;
+}
+
+/* ===========================================================================
+   Logo
+   ===========================================================================
+   The wordmark already says "Growvanta", so the text beside it says only
+   "CRM" - repeating the name next to a picture of the name reads as a mistake.
+   Width and height are declared so the row does not jump while the image
+   loads; the CSS height then overrides them.
+   =========================================================================== */
+
+.brand img {
+  height: 37px;
+  width: auto;
+  display: block;
+  transition: transform .25s cubic-bezier(.2,.7,.3,1);
+}
+.brand:hover img { transform: scale(1.04); }
+
+
+.foot .brand img { height: 42px; }
+
+@media (max-width: 560px) {
+  .brand img { height: 30px; }
+}
+
+/* ===========================================================================
+   Motion
+   ===========================================================================
+   Everything below is decoration. It is written so that removing it, or
+   disabling it for someone who asked for less motion, leaves a page that still
+   works and still looks finished - never one stuck mid-fade.
+   =========================================================================== */
+
+/* --- scroll reveal ------------------------------------------------------- */
+/* Applied by js/site.js only when IntersectionObserver exists, so a browser
+   without it simply shows everything - no invisible page. */
+.js-reveal .reveal {
+  opacity: 0;
+  transform: translateY(18px);
+}
+.js-reveal .reveal.is-in {
+  opacity: 1;
+  transform: none;
+  transition: opacity .55s ease, transform .55s cubic-bezier(.2,.7,.3,1);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+/* --- hero entrance ------------------------------------------------------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+.hero > * { animation: rise .6s cubic-bezier(.2,.7,.3,1) both; }
+.hero > h1         { animation-delay: .10s; }
+.hero > .lede      { animation-delay: .18s; }
+.hero > .hero__cta { animation-delay: .26s; }
+.hero > .hero__note{ animation-delay: .34s; }
+
+/* --- cards --------------------------------------------------------------- */
+.card {
+  transition: transform .22s cubic-bezier(.2,.7,.3,1),
+              box-shadow .22s ease,
+              border-color .22s ease;
+}
+.card:hover {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--accent) 45%, var(--line));
+  box-shadow: 0 10px 28px -14px rgba(0, 40, 20, .32);
+}
+.card__icon { transition: transform .22s cubic-bezier(.2,.7,.3,1), background-color .22s ease; }
+.card:hover .card__icon {
+  transform: scale(1.08) rotate(-4deg);
+  background: color-mix(in srgb, var(--accent) 18%, var(--surface));
+}
+
+.steps .card::before { transition: transform .22s cubic-bezier(.2,.7,.3,1); }
+.steps .card:hover::before { transform: scale(1.12); }
+
+/* --- buttons ------------------------------------------------------------- */
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 18px -10px rgba(0, 40, 20, .5);
+}
+.btn:active { transform: translateY(0); transition-duration: .06s; }
+.btn--primary:hover { background: var(--accent-2); border-color: var(--accent-2); }
+
+/* Dark mode inverts the accent ramp: accent-2 is LIGHTER there, so the same
+   rule still reads as "brighter on hover" rather than accidentally darker. */
+
+/* --- nav links ----------------------------------------------------------- */
+.nav__links a:not(.btn) { position: relative; transition: color .18s ease; }
+.nav__links a:not(.btn)::after {
+  content: "";
+  position: absolute;
+  left: 11px; right: 11px; bottom: 4px;
+  height: 1.5px;
+  background: var(--accent);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .24s cubic-bezier(.2,.7,.3,1);
+}
+.nav__links a:not(.btn):hover::after { transform: scaleX(1); }
+
+/* --- tables -------------------------------------------------------------- */
+table.plain tbody tr { transition: background-color .18s ease; }
+table.plain tbody tr:hover { background: color-mix(in srgb, var(--accent) 6%, transparent); }
+
+/* --- links in prose ------------------------------------------------------ */
+.doc a, .card a { transition: color .16s ease; }
+.doc a:hover, .card a:hover { color: var(--accent-2); }
+
+/* --- footer -------------------------------------------------------------- */
+.foot a { transition: color .18s ease, transform .18s ease; display: inline-block; }
+.foot li a:hover { transform: translateX(3px); }
+
+/* --- table of contents --------------------------------------------------- */
+.toc li { transition: transform .18s ease; }
+.toc li:hover { transform: translateX(3px); }
+
+/* --- the one rule that governs all of the above -------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  .js-reveal .reveal { opacity: 1; transform: none; }
+  .card:hover, .btn:hover, .foot li a:hover, .toc li:hover { transform: none; }
+  .card:hover .card__icon { transform: none; }
+}
+
+/* ===========================================================================
+   FAQ
+   ===========================================================================
+   Deliberately not an accordion. Hidden answers are worse for the reader on a
+   phone, who has to tap eight times to compare eight answers, and worse for
+   search and AI answer engines, which quote what a page states plainly far more
+   readily than what it reveals on click.
+   =========================================================================== */
+
+.faq { margin-top: 36px; }
+
+.faq__item {
+  border-top: 1px solid var(--line);
+  padding: 26px 0;
+}
+.faq__item:last-child { border-bottom: 1px solid var(--line); }
+
+.faq__q {
+  font-size: var(--step-1);
+  margin-bottom: 10px;
+  color: var(--ink);
+}
+.faq__a {
+  color: var(--ink-2);
+  margin: 0;
+  max-width: 70ch;
+}
+.faq__a + .faq__a { margin-top: 10px; }
+
+@media (min-width: 900px) {
+  .faq__item {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.3fr);
+    gap: 32px;
+  }
+  .faq__q { margin-bottom: 0; }
+}

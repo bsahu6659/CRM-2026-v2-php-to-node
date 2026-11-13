@@ -1,0 +1,15 @@
+# Netlify: builds the React app from client/ and forwards the API paths to the
+# Node server on Render.
+#
+# Set ONE environment variable in Netlify (Site configuration > Environment
+# variables) before deploying:
+#
+#   API_ORIGIN = https://growvanta-api.onrender.com   (your Render address)
+#
+# The build then writes dist/_redirects from it (scripts/netlify-proxy.mjs),
+# so the browser only ever talks to the Netlify site. That matters for login:
+# the session cookie stays first-party, which Safari and Firefox require.
+[build]
+  base = "client"
+  command = "npm run build && node ../scripts/netlify-proxy.mjs"
+  publish = "dist"

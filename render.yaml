@@ -1,0 +1,52 @@
+# Render Blueprint for the Node API (free plan).
+# Render dashboard > New > Blueprint > pick this repository. It asks for every
+# value marked `sync: false`; the rest are filled in here.
+#
+# The three URL values are the Netlify (or Vercel) address of the React app,
+# because that site forwards /api, /webhooks, /f and /embed here and is the
+# only address users and Meta ever see.
+services:
+  - type: web
+    name: growvanta-api
+    runtime: node
+    plan: free
+    rootDir: server
+    buildCommand: npm ci
+    startCommand: node src/server.js
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: APP_ENV
+        value: production
+      - key: APP_DEBUG
+        value: "0"
+      # 32+ random characters, generated once by Render. Do not change it later.
+      - key: APP_KEY
+        generateValue: true
+      - key: APP_URL
+        sync: false
+      - key: CLIENT_URL
+        sync: false
+      - key: CORS_ORIGINS
+        sync: false
+      - key: COOKIE_SECURE
+        value: "1"
+      - key: COOKIE_SAMESITE
+        value: Lax
+      - key: DB_HOST
+        sync: false
+      - key: DB_PORT
+        value: "4000"
+      - key: DB_NAME
+        value: growvanta
+      - key: DB_USER
+        sync: false
+      - key: DB_PASS
+        sync: false
+      - key: DB_SSL
+        value: "1"
+      - key: DB_POOL_SIZE
+        value: "5"
+      - key: SWEEP_INTERVAL_MIN
+        value: "15"

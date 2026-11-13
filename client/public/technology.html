@@ -1,0 +1,595 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How Growvanta Is Built</title>
+<meta name="description" content="The engineering behind Growvanta CRM - the problem it solves, the stack it runs on, and the decisions behind it.">
+<meta property="og:title" content="How Growvanta Is Built">
+<meta property="og:description" content="A real-estate CRM on PHP and MySQL, with zero third-party dependencies, built to run on ordinary shared hosting.">
+<meta property="og:url" content="https://growvantacrm.online/technology.html">
+<link rel="icon" href="/favicon.ico">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+<style>
+  :root {
+    --ground:      #F7F8F6;
+    --surface:     #FFFFFF;
+    --surface-2:   #EEF1EC;
+    --ink:         #101A14;
+    --ink-2:       #33453C;
+    --ink-3:       #5A6B62;
+    --line:        #DCE2DB;
+    --line-2:      #E9EDE7;
+    --accent:      #0E7C4A;
+    --accent-2:    #0A5C37;
+    --accent-soft: #E2F2E8;
+    --spark:       #35E06F;
+    --amber:       #A8680A;
+    --amber-soft:  #FBF0DC;
+    --wrap: 1120px;
+    --step-1: 1.1875rem;
+    --step-3: 2.125rem;
+    --step-4: clamp(2.35rem, 5vw, 3.75rem);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0A120E;
+      --surface:     #111C16;
+      --surface-2:   #16241C;
+      --ink:         #E8EFE9;
+      --ink-2:       #B4C4B9;
+      --ink-3:       #849489;
+      --line:        #223229;
+      --line-2:      #1B2921;
+      --accent:      #3FBF7B;
+      --accent-2:    #63D694;
+      --accent-soft: #14301F;
+      --amber:       #DCA857;
+      --amber-soft:  #322312;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #0A120E;
+    --surface:     #111C16;
+    --surface-2:   #16241C;
+    --ink:         #E8EFE9;
+    --ink-2:       #B4C4B9;
+    --ink-3:       #849489;
+    --line:        #223229;
+    --line-2:      #1B2921;
+    --accent:      #3FBF7B;
+    --accent-2:    #63D694;
+    --accent-soft: #14301F;
+    --amber:       #DCA857;
+    --amber-soft:  #322312;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0;
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: 1rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { max-width: 100%; }
+  h1, h2, h3 {
+    font-family: Archivo, ui-sans-serif, system-ui, sans-serif;
+    text-wrap: balance;
+    letter-spacing: -0.021em;
+    line-height: 1.1;
+    margin: 0;
+  }
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  .wrap { max-width: var(--wrap); margin-inline: auto; padding-inline: 24px; }
+  .band { padding-block: clamp(3.25rem, 6.5vw, 5.5rem); }
+  .band--tint { background: var(--surface-2); }
+  .band--edge { border-top: 1px solid var(--line); }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem; font-weight: 500;
+    letter-spacing: 0.14em; text-transform: uppercase;
+    color: var(--accent);
+    display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::after { content: ""; flex: 1; height: 1px; background: var(--line); }
+
+  .sec-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 38px; }
+  .sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+  .sec-head p { margin: 0; max-width: 62ch; color: var(--ink-2); font-size: var(--step-1); }
+
+  /* ------------------------------------------------------------- hero --- */
+  .hero { padding-block: clamp(2.75rem, 5.5vw, 4.5rem) clamp(2.25rem, 4.5vw, 3.5rem); }
+  .brandline { display: flex; align-items: baseline; gap: 12px; margin-bottom: clamp(1.75rem, 4vw, 3rem); flex-wrap: wrap; }
+  .brandmark { font-family: Archivo, sans-serif; font-weight: 800; font-size: 1.05rem; letter-spacing: -0.02em; }
+  .brandmark span { color: var(--accent); }
+  .brandline .tag {
+    font-family: "JetBrains Mono", monospace; font-size: 0.7rem;
+    letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink-3);
+  }
+  .hero h1 { font-size: var(--step-4); font-weight: 800; max-width: 16ch; }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero .lede {
+    margin: 24px 0 0; font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+    line-height: 1.55; color: var(--ink-2); max-width: 58ch;
+  }
+
+  .figs {
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 18px 28px; margin-top: 38px; padding-top: 26px;
+    border-top: 1px solid var(--line);
+  }
+  .fig .n {
+    font-family: Archivo, sans-serif; font-weight: 700;
+    font-size: 1.75rem; line-height: 1; font-variant-numeric: tabular-nums;
+  }
+  .fig .k {
+    font-family: "JetBrains Mono", monospace; font-size: 0.66rem;
+    letter-spacing: 0.09em; text-transform: uppercase;
+    color: var(--ink-3); margin-top: 7px;
+  }
+
+  /* ------------------------------------------------------------ pieces -- */
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+
+  .feat {
+    background: var(--surface); border: 1px solid var(--line);
+    border-radius: 10px; padding: 22px 20px;
+    display: flex; flex-direction: column; gap: 9px;
+  }
+  .feat h3 { font-size: 1.0625rem; font-weight: 600; }
+  .feat p { margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
+
+  .plainlist { display: grid; }
+  .plainlist > div {
+    display: grid; grid-template-columns: 220px minmax(0, 1fr);
+    gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--line-2);
+    align-items: baseline;
+  }
+  .plainlist > div:first-child { border-top: 1px solid var(--line-2); }
+  .plainlist .t { font-family: Archivo, sans-serif; font-weight: 600; font-size: 0.9375rem; }
+  .plainlist .d { color: var(--ink-2); font-size: 0.9375rem; margin: 0; }
+
+  /* --------------------------------------------------------- the stack -- */
+  .layer {
+    display: grid; grid-template-columns: 150px minmax(0, 1fr) 180px;
+    gap: 18px; align-items: center;
+    padding: 15px 18px; border: 1px solid var(--line);
+    border-radius: 9px; background: var(--surface); margin-bottom: 10px;
+  }
+  .layer .lname { font-family: Archivo, sans-serif; font-weight: 700; font-size: 0.95rem; }
+  .layer .ldesc { color: var(--ink-2); font-size: 0.9375rem; }
+  .layer .lwhat {
+    font-family: "JetBrains Mono", monospace; font-size: 0.75rem;
+    color: var(--accent-2); text-align: right;
+  }
+  :root[data-theme="dark"] .layer .lwhat,
+  :root:not([data-theme="light"]) .layer .lwhat { color: var(--accent); }
+
+  /* ------------------------------------------------------------- flow --- */
+  .flow { display: grid; gap: 10px; }
+  .step {
+    display: grid; grid-template-columns: 34px minmax(0, 1fr);
+    gap: 16px; align-items: start;
+    padding: 14px 16px; background: var(--surface);
+    border: 1px solid var(--line); border-radius: 9px;
+  }
+  .step .sn {
+    width: 28px; height: 28px; border-radius: 50%;
+    background: var(--accent); color: #fff;
+    display: grid; place-items: center;
+    font-family: "JetBrains Mono", monospace; font-size: 0.75rem; font-weight: 700;
+  }
+  :root[data-theme="dark"] .step .sn,
+  :root:not([data-theme="light"]) .step .sn { color: #08160E; }
+  .step .st { font-family: Archivo, sans-serif; font-weight: 600; font-size: 0.95rem; }
+  .step .sd { color: var(--ink-2); font-size: 0.9rem; margin-top: 3px; }
+
+  /* ------------------------------------------------------------ chips --- */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: "JetBrains Mono", monospace; font-size: 0.75rem;
+    padding: 5px 11px; border-radius: 6px;
+    background: var(--surface); border: 1px solid var(--line); color: var(--ink-2);
+  }
+  .chip.on { background: var(--accent-soft); border-color: var(--accent); color: var(--accent-2); }
+  :root[data-theme="dark"] .chip.on,
+  :root:not([data-theme="light"]) .chip.on { color: var(--accent-2); }
+
+  .callout {
+    padding: 18px 20px; border-left: 3px solid var(--accent);
+    background: var(--surface); border-radius: 0 8px 8px 0;
+    font-size: 1rem; margin-top: 24px;
+  }
+  .callout strong { font-family: Archivo, sans-serif; font-weight: 700; }
+
+  /* ----------------------------------------------------------- close ---- */
+  .close {
+    background: var(--ink); color: var(--ground);
+    border-radius: 14px; padding: clamp(2rem, 4.5vw, 3.25rem);
+  }
+  .close h2 { font-size: var(--step-3); font-weight: 700; color: var(--ground); max-width: 20ch; }
+  .close p { color: #B8C6BC; max-width: 56ch; font-size: var(--step-1); margin: 16px 0 0; }
+  .close .pts {
+    display: flex; flex-wrap: wrap; gap: 10px 28px;
+    margin-top: 28px; padding-top: 24px; border-top: 1px solid rgba(255,255,255,.14);
+  }
+  .close .pts span {
+    font-family: "JetBrains Mono", monospace; font-size: 0.78rem;
+    color: var(--spark); letter-spacing: 0.04em;
+  }
+
+  footer { padding-block: 32px 54px; color: var(--ink-3); font-size: 0.8125rem; }
+
+  @media (max-width: 900px) {
+    .figs { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .layer { grid-template-columns: minmax(0, 1fr); gap: 6px; }
+    .layer .lwhat { text-align: left; }
+  }
+  @media (max-width: 640px) {
+    .g2, .g3 { grid-template-columns: minmax(0, 1fr); }
+    .plainlist > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+  }
+</style>
+<link rel="canonical" href="https://growvantacrm.online/technology.html">
+<meta property="og:image" content="https://growvantacrm.online/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Growvanta CRM">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="How Growvanta Is Built">
+<meta name="twitter:description" content="The engineering behind Growvanta CRM: plain PHP and MySQL, no framework, no package manager, no build step - so it runs on ordinary shared hosting.">
+<meta name="twitter:image" content="https://growvantacrm.online/assets/og-image.png">
+<meta name="robots" content="index, follow">
+</head>
+<body>
+
+<!-- ============================================================= HERO === -->
+<section class="hero">
+  <div class="wrap">
+    <div class="brandline">
+      <a class="brandmark" href="/home.html" aria-label="Growvanta CRM, home" style="color:inherit;text-decoration:none;">GROW<span>VANTA</span></a>
+      <span class="tag">Engineering overview</span>
+    </div>
+
+    <h1>A real-estate CRM that runs <em>anywhere</em> PHP does.</h1>
+    <p class="lede">
+      No framework, no package manager, no build step, no third-party libraries.
+      Upload it to ordinary shared hosting and it works — because that is where
+      the customers who need it already are.
+    </p>
+
+    <div class="figs">
+      <div class="fig"><div class="n mono">51</div><div class="k">Database tables</div></div>
+      <div class="fig"><div class="n mono">29</div><div class="k">API route files</div></div>
+      <div class="fig"><div class="n mono">177</div><div class="k">Automated tests</div></div>
+      <div class="fig"><div class="n mono">0</div><div class="k">Third-party packages</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== PROBLEM === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The problem</div>
+      <h2>Enquiries arrive in six places and are followed up in none</h2>
+      <p>
+        A property team hears from buyers through portals, its own website,
+        Facebook and Instagram ads, WhatsApp, walk-ins and the phone. Each channel
+        has its own inbox. None of them talk to each other.
+      </p>
+    </div>
+
+    <div class="grid g3">
+      <div class="feat">
+        <h3>Leads go cold in an inbox</h3>
+        <p>An enquiry sits in an ad account nobody opens until Friday. By then the buyer has visited two other sites.</p>
+      </div>
+      <div class="feat">
+        <h3>Nobody can prove attribution</h3>
+        <p>Which portal produced bookings, not just enquiries? Without one record per lead, that argument is settled by whoever speaks loudest.</p>
+      </div>
+      <div class="feat">
+        <h3>Everyone sees everything</h3>
+        <p>Spreadsheets have no permissions. A telecaller can read the whole pipeline, and a departing executive can take it with them.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>Generic CRMs solve a generic problem.</strong>
+      Property sales turn on a site visit, a RERA number, a possession date and a
+      configuration — fields a generic tool makes you invent as custom text.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ BUILT === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">What was built</div>
+      <h2>The capability map</h2>
+    </div>
+
+    <div class="plainlist">
+      <div>
+        <span class="t">Lead management</span>
+        <p class="d">Capture, scoring out of 100, an 11-stage pipeline, duplicate detection and merge, activity timeline, follow-ups, tags and custom fields.</p>
+      </div>
+      <div>
+        <span class="t">Project inventory</span>
+        <p class="d">RERA number, developer, price and area bands, configurations, amenities, possession date, image gallery — with per-project reporting.</p>
+      </div>
+      <div>
+        <span class="t">Assignment engine</span>
+        <p class="d">Round robin, least-loaded-first and team round robin, driven by rules on source, project, city or hour of day.</p>
+      </div>
+      <div>
+        <span class="t">Permissions</span>
+        <p class="d">23 modules × 89 distinct actions, 9 ready-made roles, 5 visibility scopes, plus per-user grants that need no new role.</p>
+      </div>
+      <div>
+        <span class="t">Messaging</span>
+        <p class="d">WhatsApp via the Meta Cloud API and email over raw SMTP, both governed by a three-state readiness check, with a delivery log that records why anything was skipped.</p>
+      </div>
+      <div>
+        <span class="t">Capture</span>
+        <p class="d">Embeddable and hosted web forms with origin allow-listing and a honeypot, Meta Lead Ads webhooks, and bulk import with duplicate preview.</p>
+      </div>
+      <div>
+        <span class="t">Insight</span>
+        <p class="d">Dashboards, source and funnel reports, targets, per-person performance, saved views, and XLSX export of any list on screen.</p>
+      </div>
+      <div>
+        <span class="t">Operations</span>
+        <p class="d">Full audit log, in-app notifications, staff email alerts on new leads and upcoming follow-ups, and a cron sweep for time-based work.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ STACK === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The stack</div>
+      <h2>Chosen for where it has to run</h2>
+      <p>
+        The target is a ₹300-a-month cPanel account, not a Kubernetes cluster.
+        That single constraint decided almost every technical choice below.
+      </p>
+    </div>
+
+    <div class="layer">
+      <span class="lname">Frontend</span>
+      <span class="ldesc">A single-page app in plain ES modules — hash router, no framework, no bundler, no build step. Edit a file, refresh the browser.</span>
+      <span class="lwhat mono">38 modules · 12k lines</span>
+    </div>
+    <div class="layer">
+      <span class="lname">API</span>
+      <span class="ldesc">A REST surface returning a consistent <span class="mono">{data, meta}</span> or <span class="mono">{error}</span> envelope, routed by <span class="mono">.htaccess</span> into one front controller.</span>
+      <span class="lwhat mono">29 route files</span>
+    </div>
+    <div class="layer">
+      <span class="lname">Domain</span>
+      <span class="ldesc">Services holding the business rules — leads, projects, assignment, scoring, comms, provisioning — kept out of the route handlers.</span>
+      <span class="lwhat mono">PHP 8.1+</span>
+    </div>
+    <div class="layer">
+      <span class="lname">Data</span>
+      <span class="ldesc">MySQL 5.7 / MariaDB 10.3 and up, reached only through PDO prepared statements. A base schema plus ordered migrations, so an existing install upgrades.</span>
+      <span class="lwhat mono">51 tables · 3 migrations</span>
+    </div>
+    <div class="layer">
+      <span class="lname">Hosting</span>
+      <span class="ldesc">Apache or LiteSpeed shared hosting. Seven standard PHP extensions and nothing else.</span>
+      <span class="lwhat mono">cPanel / hPanel</span>
+    </div>
+
+    <div class="chips" style="margin-top:24px">
+      <span class="chip on">pdo_mysql</span>
+      <span class="chip on">openssl</span>
+      <span class="chip on">mbstring</span>
+      <span class="chip on">fileinfo</span>
+      <span class="chip on">json</span>
+      <span class="chip on">zlib</span>
+      <span class="chip">curl <em style="font-style:normal;opacity:.7">— optional</em></span>
+    </div>
+
+    <div class="callout">
+      <strong>No Composer. No npm. No vendor directory.</strong>
+      Every dependency is a future upgrade someone has to perform on a server they
+      may not have shell access to. The libraries that would normally be pulled in
+      were written instead — and are listed below.
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= DECISIONS === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Engineering decisions</div>
+      <h2>The parts worth explaining</h2>
+      <p>Where the build departs from the obvious approach, and why.</p>
+    </div>
+
+    <div class="grid g2">
+      <div class="feat">
+        <h3>Authorization has two gates, not one</h3>
+        <p>
+          Every request asks two separate questions: may this role perform this
+          action, and is this record inside the part of the organisation this
+          person can see? Visibility walks the manager and team tree in code
+          rather than a recursive query, so MySQL 5.7 is still supported.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>A channel is never green just because it is on</h3>
+        <p>
+          WhatsApp and email report red, amber or green. Green requires a test
+          send that actually landed. The server re-derives the verdict before
+          every message, and a skipped message records its reason in words.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>XLSX written by hand</h3>
+        <p>
+          Spreadsheet export builds the ZIP container itself using <span class="mono">gzdeflate</span>,
+          so no <span class="mono">ext-zip</span> and no PhpSpreadsheet. Values go in as inline
+          strings, which also makes CSV-style formula injection inert.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>SMTP spoken directly</h3>
+        <p>
+          A small client handles STARTTLS, implicit SSL, AUTH LOGIN and dot-stuffing.
+          It is a few hundred lines against a library plus its transitive tree,
+          and it fails with an error a support person can read.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>Work continues after the response</h3>
+        <p>
+          Domain events queue during a request and flush after
+          <span class="mono">litespeed_finish_request()</span>, so sending a welcome message
+          never makes the user wait for a third-party API.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>Secrets are reversible only with the key</h3>
+        <p>
+          Integration credentials are sealed with AES-256-GCM derived from
+          <span class="mono">APP_KEY</span>. Passwords are bcrypt and one-way. Session tokens are
+          opaque and stored only as a SHA-256 hash.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== REQUEST === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Anatomy of a request</div>
+      <h2>What happens when a form on your website is submitted</h2>
+    </div>
+
+    <div class="flow">
+      <div class="step">
+        <span class="sn">1</span>
+        <div>
+          <div class="st">The browser posts to the public capture endpoint</div>
+          <div class="sd">No authentication — this is the front door for website traffic.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="sn">2</span>
+        <div>
+          <div class="st">Four checks run before anything is written</div>
+          <div class="sd">Per-form origin allow-list, per-IP rate limit, honeypot field, and the rule that a submission may only write the columns that form has explicitly mapped.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="sn">3</span>
+        <div>
+          <div class="st">The lead is created against the form's own organisation</div>
+          <div class="sd">Source and project come from the form, never from the visitor — so scoring and reporting see the real attribution on the first evaluation.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="sn">4</span>
+        <div>
+          <div class="st">Duplicates are matched, scored and assigned</div>
+          <div class="sd">Phone and email are checked against existing buyers; the assignment rules pick an owner; the scoring rules set a band.</div>
+        </div>
+      </div>
+      <div class="step">
+        <span class="sn">5</span>
+        <div>
+          <div class="st">The response returns — then the rest happens</div>
+          <div class="sd">Welcome message to the buyer, alert to the owner, audit entry and webhooks all run after the connection closes.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== QUALITY === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">How it is kept honest</div>
+      <h2>Tests that drive the real HTTP API</h2>
+      <p>
+        Not mocked units. The suites sign in over HTTP, act as different roles,
+        and assert what each one is allowed to see.
+      </p>
+    </div>
+
+    <div class="grid g3">
+      <div class="feat">
+        <h3>177 assertions</h3>
+        <p>Multi-company isolation, hierarchy and assignment, project visibility, lead permissions, and the staff alert rules — each suite cleans up after itself.</p>
+      </div>
+      <div class="feat">
+        <h3>Static checks</h3>
+        <p>Column names verified against the live schema, NOT NULL coverage on inserts, JavaScript import resolution, and dead-code detection across the front end.</p>
+      </div>
+      <div class="feat">
+        <h3>Reproducible releases</h3>
+        <p>One script stages the files, exports the data in dependency order, refuses to package if a secret is present, and writes a dated archive.</p>
+      </div>
+    </div>
+
+    <div class="callout">
+      <strong>A negative test is the only proof that a guard works.</strong>
+      Every permission rule is asserted twice — once that the right role can act,
+      and once that the wrong one is refused with the correct status.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ CLOSE === -->
+<section class="band">
+  <div class="wrap">
+    <div class="close">
+      <h2>Built to be handed over, not just delivered.</h2>
+      <p>
+        One database the customer owns, on hosting in their name, with an upgrade
+        that is a file copy and a migration — no build server, no container
+        registry, and no dependency that expires.
+      </p>
+      <div class="pts">
+        <span>PHP 8.1+ &amp; MySQL 5.7+</span>
+        <span>Zero third-party packages</span>
+        <span>Deploys by upload</span>
+        <span>177 tests green</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Growvanta CRM — engineering overview. Figures are counted from the shipped source.</div>
+</footer>
+
+</body>
+</html>

@@ -1,0 +1,1133 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Growvanta CRM - a CRM built only for real-estate sales. Pipeline, lead scoring, project master, assignment rules, permissions, WhatsApp and email automation.">
+<meta name="robots" content="index, follow">
+<meta property="og:title" content="Growvanta CRM">
+<meta property="og:description" content="Every enquiry, from first call to booking. A CRM built only for property sales.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://growvantacrm.online/presentation.html">
+<link rel="icon" href="/favicon.ico">
+<style>
+  *, *::before, *::after { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body { margin: 0; }
+  img { max-width: 100%; }
+</style>
+<title>Growvanta CRM</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=Instrument+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap">
+
+<link rel="canonical" href="https://growvantacrm.online/presentation.html">
+<meta property="og:image" content="https://growvantacrm.online/assets/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="Growvanta CRM">
+<meta property="og:locale" content="en_IN">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Growvanta CRM - product walkthrough">
+<meta name="twitter:description" content="A walkthrough of Growvanta CRM: the property sales pipeline, lead scoring, project master, assignment rules, permissions, and WhatsApp and email automation.">
+<meta name="twitter:image" content="https://growvantacrm.online/assets/og-image.png">
+</head>
+<body>
+<style>
+  :root {
+    --ground:      #F7F8F6;
+    --surface:     #FFFFFF;
+    --surface-2:   #EEF1EC;
+    --ink:         #101A14;
+    --ink-2:       #33453C;
+    --ink-3:       #5A6B62;
+    --line:        #DCE2DB;
+    --line-2:      #E9EDE7;
+    --accent:      #0E7C4A;
+    --accent-2:    #0A5C37;
+    --accent-soft: #E2F2E8;
+    --spark:       #35E06F;
+    --red:         #B4302A;
+    --red-soft:    #FBE9E7;
+    --amber:       #A8680A;
+    --amber-soft:  #FBF0DC;
+    --green:       #14733F;
+    --green-soft:  #E1F1E6;
+
+    --wrap: 1120px;
+    --step-0: 1rem;
+    --step-1: 1.1875rem;
+    --step-2: 1.5rem;
+    --step-3: 2.125rem;
+    --step-4: clamp(2.5rem, 5.5vw, 4.25rem);
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --ground:      #0A120E;
+      --surface:     #111C16;
+      --surface-2:   #16241C;
+      --ink:         #E8EFE9;
+      --ink-2:       #B4C4B9;
+      --ink-3:       #849489;
+      --line:        #223229;
+      --line-2:      #1B2921;
+      --accent:      #3FBF7B;
+      --accent-2:    #63D694;
+      --accent-soft: #14301F;
+      --spark:       #35E06F;
+      --red:         #E8837C;
+      --red-soft:    #351A18;
+      --amber:       #DCA857;
+      --amber-soft:  #322312;
+      --green:       #5FCB8C;
+      --green-soft:  #14301F;
+    }
+  }
+  :root[data-theme="dark"] {
+    --ground:      #0A120E;
+    --surface:     #111C16;
+    --surface-2:   #16241C;
+    --ink:         #E8EFE9;
+    --ink-2:       #B4C4B9;
+    --ink-3:       #849489;
+    --line:        #223229;
+    --line-2:      #1B2921;
+    --accent:      #3FBF7B;
+    --accent-2:    #63D694;
+    --accent-soft: #14301F;
+    --spark:       #35E06F;
+    --red:         #E8837C;
+    --red-soft:    #351A18;
+    --amber:       #DCA857;
+    --amber-soft:  #322312;
+    --green:       #5FCB8C;
+    --green-soft:  #14301F;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    background: var(--ground);
+    color: var(--ink);
+    font-family: "Instrument Sans", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-size: var(--step-0);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1, h2, h3, .display {
+    font-family: Archivo, "Archivo Black", ui-sans-serif, system-ui, sans-serif;
+    text-wrap: balance;
+    letter-spacing: -0.021em;
+    line-height: 1.08;
+    margin: 0;
+  }
+
+  .mono {
+    font-family: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+
+  a { color: var(--accent); }
+  :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; border-radius: 3px; }
+
+  /* ---------------------------------------------------------- structure --- */
+  .band { padding-block: clamp(3.5rem, 7vw, 6rem); }
+  .band--tint { background: var(--surface-2); }
+  .band--edge { border-top: 1px solid var(--line); }
+
+  .wrap {
+    max-width: var(--wrap);
+    margin-inline: auto;
+    padding-inline: 24px;
+  }
+
+  .eyebrow {
+    font-family: "JetBrains Mono", ui-monospace, monospace;
+    font-size: 0.72rem;
+    font-weight: 500;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--accent);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .eyebrow::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .sec-head { display: flex; flex-direction: column; gap: 14px; margin-bottom: 40px; }
+  .sec-head h2 { font-size: var(--step-3); font-weight: 700; }
+  .sec-head p {
+    margin: 0;
+    max-width: 60ch;
+    color: var(--ink-2);
+    font-size: var(--step-1);
+  }
+
+  /* -------------------------------------------------------------- hero --- */
+  .hero { padding-block: clamp(3rem, 6vw, 5rem) clamp(2.5rem, 5vw, 4rem); }
+  .brandline {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+  }
+  .brandmark {
+    font-family: Archivo, sans-serif;
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: -0.02em;
+  }
+  .brandmark span { color: var(--accent); }
+  .brandline .tag {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+
+  .hero h1 {
+    font-size: var(--step-4);
+    font-weight: 800;
+    max-width: 17ch;
+  }
+  .hero h1 em {
+    font-style: normal;
+    color: var(--accent);
+  }
+  .hero .lede {
+    margin: 26px 0 0;
+    font-size: clamp(1.0625rem, 1.6vw, 1.3125rem);
+    line-height: 1.55;
+    color: var(--ink-2);
+    max-width: 56ch;
+  }
+
+  .hero-figures {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 14px 40px;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+  .figure .n {
+    font-family: Archivo, sans-serif;
+    font-weight: 700;
+    font-size: 1.75rem;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .figure .k {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-top: 7px;
+  }
+
+  /* ---------------------------------------------------- pipeline rail --- */
+  .rail-shell { overflow-x: auto; padding-block: 4px 14px; }
+  .rail {
+    display: flex;
+    align-items: stretch;
+    gap: 0;
+    min-width: 860px;
+  }
+  .stage {
+    flex: 1;
+    padding: 14px 10px 16px;
+    border-top: 3px solid var(--line);
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .stage.is-live { border-top-color: var(--accent); }
+  .stage.is-out  { border-top-color: var(--red); }
+  .stage .num {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.65rem;
+    color: var(--ink-3);
+    letter-spacing: 0.08em;
+  }
+  .stage .nm {
+    font-family: Archivo, sans-serif;
+    font-weight: 600;
+    font-size: 0.875rem;
+    line-height: 1.25;
+  }
+  .stage.is-out .nm { color: var(--ink-3); }
+  .rail-note {
+    margin: 10px 0 0;
+    font-size: 0.85rem;
+    color: var(--ink-3);
+  }
+
+  /* -------------------------------------------------------------- grid --- */
+  .grid { display: grid; gap: 18px; }
+  .g2 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .g3 { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .g4 { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+
+  .feat {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 22px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+  }
+  .feat h3 { font-size: 1.0625rem; font-weight: 600; }
+  .feat p { margin: 0; color: var(--ink-2); font-size: 0.9375rem; line-height: 1.55; }
+
+  /* plain list — not every group is a card */
+  .plainlist { display: grid; gap: 0; }
+  .plainlist > div {
+    display: grid;
+    grid-template-columns: 210px minmax(0, 1fr);
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--line-2);
+    align-items: baseline;
+  }
+  .plainlist > div:first-child { border-top: 1px solid var(--line-2); }
+  .plainlist dt, .plainlist .t {
+    font-family: Archivo, sans-serif;
+    font-weight: 600;
+    font-size: 0.9375rem;
+  }
+  .plainlist .d { color: var(--ink-2); font-size: 0.9375rem; margin: 0; }
+
+  /* --------------------------------------------------------- lead card --- */
+  .split { display: grid; grid-template-columns: 1.05fr 1fr; gap: 40px; align-items: start; }
+
+  .mock {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .mock-head {
+    padding: 16px 18px;
+    border-bottom: 1px solid var(--line-2);
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #fff;
+    display: grid;
+    place-items: center;
+    font-family: Archivo, sans-serif;
+    font-weight: 700;
+    font-size: 0.875rem;
+    flex: 0 0 auto;
+  }
+  .mock-head .who { min-width: 0; }
+  .mock-head .nm { font-family: Archivo, sans-serif; font-weight: 700; font-size: 1rem; }
+  .mock-head .sub { font-size: 0.8125rem; color: var(--ink-3); }
+  .score {
+    margin-left: auto;
+    text-align: right;
+    flex: 0 0 auto;
+  }
+  .score .v {
+    font-family: Archivo, sans-serif;
+    font-weight: 700;
+    font-size: 1.375rem;
+    color: var(--accent);
+    font-variant-numeric: tabular-nums;
+  }
+  .score .l {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    color: var(--ink-3);
+  }
+  .mock-rows { padding: 6px 18px 16px; }
+  .mrow {
+    display: grid;
+    grid-template-columns: 116px minmax(0, 1fr);
+    gap: 14px;
+    padding: 9px 0;
+    border-bottom: 1px solid var(--line-2);
+    font-size: 0.875rem;
+  }
+  .mrow:last-child { border-bottom: 0; }
+  .mrow .k {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    padding-top: 3px;
+  }
+  .mrow .v { color: var(--ink); }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    background: var(--accent-soft);
+    color: var(--accent-2);
+  }
+  .pill::before {
+    content: "";
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+
+  /* ---------------------------------------------------- traffic lights --- */
+  .lights { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .light {
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 20px;
+    background: var(--surface);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .light .state {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+    font-weight: 700;
+    text-transform: uppercase;
+    width: fit-content;
+    padding: 4px 10px;
+    border-radius: 999px;
+  }
+  .light .state::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: currentColor; }
+  .light.red    .state { color: var(--red);   background: var(--red-soft); }
+  .light.amber  .state { color: var(--amber); background: var(--amber-soft); }
+  .light.green  .state { color: var(--green); background: var(--green-soft); }
+  .light h3 { font-size: 1rem; font-weight: 600; }
+  .light p { margin: 0; font-size: 0.9375rem; color: var(--ink-2); line-height: 1.55; }
+
+  .ruleline {
+    margin-top: 24px;
+    padding: 18px 20px;
+    border-left: 3px solid var(--accent);
+    background: var(--surface);
+    border-radius: 0 8px 8px 0;
+    font-size: 1rem;
+    color: var(--ink);
+  }
+  .ruleline strong { font-family: Archivo, sans-serif; font-weight: 700; }
+
+  /* --------------------------------------------------------- scope bar --- */
+  .scopes { display: grid; gap: 10px; }
+  .scope {
+    display: grid;
+    grid-template-columns: 190px minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+  }
+  .scope .nm {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.78rem;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    color: var(--ink);
+  }
+  .scope .bar {
+    height: 26px;
+    border-radius: 5px;
+    background: var(--accent);
+    display: flex;
+    align-items: center;
+    padding-inline: 11px;
+    color: #fff;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+  :root[data-theme="dark"] .scope .bar,
+  :root:not([data-theme="light"]) .scope .bar { color: #08160E; }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme="dark"]) .scope .bar { color: #fff; }
+  }
+
+  /* ------------------------------------------------------------ chips --- */
+  .chips { display: flex; flex-wrap: wrap; gap: 8px; }
+  .chip {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.75rem;
+    padding: 5px 11px;
+    border-radius: 6px;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    color: var(--ink-2);
+  }
+
+  .roles { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .role {
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+  }
+  .role .nm { font-family: Archivo, sans-serif; font-weight: 600; font-size: 0.9375rem; }
+  .role .sc {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-3);
+    margin-top: 4px;
+  }
+
+  /* ------------------------------------------------------ credentials --- */
+  .creds {
+    background: var(--surface);
+    border: 1px solid var(--accent);
+    border-radius: 12px;
+    padding: 8px 24px 22px;
+  }
+  .cred {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 14px 0;
+    border-bottom: 1px solid var(--line-2);
+  }
+  .cred:last-of-type { border-bottom: 0; }
+  .cred .cl {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+  }
+  .cred .cv {
+    font-size: 1.0625rem;
+    font-weight: 500;
+    color: var(--ink);
+    overflow-wrap: anywhere;
+  }
+  a.cv { color: var(--accent); text-decoration: none; }
+  a.cv:hover { text-decoration: underline; }
+  .cnote {
+    margin: 16px 0 0;
+    font-size: 0.875rem;
+    color: var(--ink-2);
+    line-height: 1.5;
+  }
+
+  /* ------------------------------------------------------------ close --- */
+  .close {
+    background: var(--ink);
+    color: var(--ground);
+    border-radius: 14px;
+    padding: clamp(2.25rem, 5vw, 3.5rem);
+  }
+  .close h2 { font-size: var(--step-3); font-weight: 700; color: var(--ground); max-width: 18ch; }
+  .close p { color: #B8C6BC; max-width: 52ch; font-size: var(--step-1); margin: 18px 0 0; }
+  .close .pts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 28px;
+    margin-top: 30px;
+    padding-top: 26px;
+    border-top: 1px solid rgba(255,255,255,.14);
+  }
+  .close .pts span {
+    font-family: "JetBrains Mono", monospace;
+    font-size: 0.78rem;
+    color: var(--spark);
+    letter-spacing: 0.04em;
+  }
+
+  footer {
+    padding-block: 34px 56px;
+    color: var(--ink-3);
+    font-size: 0.8125rem;
+  }
+
+  @media (max-width: 900px) {
+    .split { grid-template-columns: 1fr; gap: 28px; }
+    .g4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .roles { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 640px) {
+    .g2, .g3, .g4, .roles, .lights { grid-template-columns: minmax(0, 1fr); }
+    .plainlist > div { grid-template-columns: minmax(0, 1fr); gap: 4px; }
+    .scope { grid-template-columns: minmax(0, 1fr); gap: 5px; }
+    .mrow { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+    .mock-head { flex-wrap: wrap; }
+    .score { margin-left: 0; text-align: left; }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .feat, .role, .light { transition: border-color .18s ease; }
+    .feat:hover, .role:hover, .light:hover { border-color: var(--accent); }
+  }
+</style>
+
+<!-- ============================================================ HERO === -->
+<section class="hero">
+  <div class="wrap">
+    <div class="brandline">
+      <a class="brandmark" href="/home.html" aria-label="Growvanta CRM, home" style="color:inherit;text-decoration:none;">GROW<span>VANTA</span></a>
+      <span class="tag">CRM for real estate</span>
+    </div>
+
+    <h1>Every enquiry, from first call to <em>booking</em>.</h1>
+    <p class="lede">
+      A CRM built only for property sales — with the site visit, the RERA number and
+      the channel partner already in it. No generic pipeline bent into shape.
+    </p>
+
+    <div class="hero-figures">
+      <div class="figure">
+        <div class="n">11</div>
+        <div class="k">Pipeline stages</div>
+      </div>
+      <div class="figure">
+        <div class="n">9</div>
+        <div class="k">Ready-made roles</div>
+      </div>
+      <div class="figure">
+        <div class="n">5</div>
+        <div class="k">Visibility levels</div>
+      </div>
+      <div class="figure">
+        <div class="n">100</div>
+        <div class="k">Point lead score</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== PIPELINE === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">The pipeline</div>
+      <h2>A property sale, stage by stage</h2>
+      <p>
+        These are the stages out of the box — not a blank funnel you have to invent.
+        Site visits get their own two stages, because that is where property deals
+        are actually won or lost.
+      </p>
+    </div>
+
+    <div class="rail-shell">
+      <div class="rail">
+        <div class="stage is-live"><span class="num mono">01</span><span class="nm">New</span></div>
+        <div class="stage is-live"><span class="num mono">02</span><span class="nm">Assigned</span></div>
+        <div class="stage is-live"><span class="num mono">03</span><span class="nm">Contacted</span></div>
+        <div class="stage is-live"><span class="num mono">04</span><span class="nm">Interested</span></div>
+        <div class="stage is-live"><span class="num mono">05</span><span class="nm">Qualified</span></div>
+        <div class="stage is-live"><span class="num mono">06</span><span class="nm">Site Visit Scheduled</span></div>
+        <div class="stage is-live"><span class="num mono">07</span><span class="nm">Site Visit Done</span></div>
+        <div class="stage is-live"><span class="num mono">08</span><span class="nm">Negotiation</span></div>
+        <div class="stage is-live"><span class="num mono">09</span><span class="nm">Booked</span></div>
+        <div class="stage is-out"><span class="num mono">—</span><span class="nm">Lost</span></div>
+        <div class="stage is-out"><span class="num mono">—</span><span class="nm">Junk</span></div>
+      </div>
+    </div>
+    <p class="rail-note">
+      Rename them, reorder them, add your own. Marking a lead <strong>Lost</strong> asks
+      for the reason — which is what the lost-reason report is built from.
+    </p>
+  </div>
+</section>
+
+<!-- ============================================================ LEAD === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Lead 360</div>
+      <h2>Everything about one buyer, on one screen</h2>
+      <p>
+        Budget, configuration, possession timeline and site-visit date sit on the lead
+        itself — not buried in a notes field somebody has to read.
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="mock" aria-label="Example lead record">
+        <div class="mock-head">
+          <div class="avatar">AD</div>
+          <div class="who">
+            <div class="nm">Ananya Deshmukh</div>
+            <div class="sub mono">LD-1009 · Housing.com</div>
+          </div>
+          <div class="score">
+            <div class="v">78</div>
+            <div class="l">HOT</div>
+          </div>
+        </div>
+        <div class="mock-rows">
+          <div class="mrow"><span class="k">Status</span><span class="v"><span class="pill">Site Visit Scheduled</span></span></div>
+          <div class="mrow"><span class="k">Project</span><span class="v">SPJ Vedatam, Sector 14 Dwarka</span></div>
+          <div class="mrow"><span class="k">Budget</span><span class="v mono">₹1.20 Cr – ₹1.80 Cr</span></div>
+          <div class="mrow"><span class="k">Configuration</span><span class="v">3 BHK</span></div>
+          <div class="mrow"><span class="k">Possession</span><span class="v">Within 1 year</span></div>
+          <div class="mrow"><span class="k">Site visit</span><span class="v mono">Sat 20 Sep, 11:30 am</span></div>
+          <div class="mrow"><span class="k">Owner</span><span class="v">Rohit Menon · North team</span></div>
+          <div class="mrow"><span class="k">Next follow-up</span><span class="v mono">Thu 18 Sep, 5:00 pm</span></div>
+        </div>
+      </div>
+
+      <div>
+        <div class="plainlist">
+          <div><span class="t">Timeline</span><p class="d">Every call, email, WhatsApp, meeting and note in one thread, newest first.</p></div>
+          <div><span class="t">Attribution</span><p class="d">Source, campaign, medium, landing page and full UTM set — captured, not typed.</p></div>
+          <div><span class="t">Duplicates</span><p class="d">Matched on phone and email as the lead arrives, then merged without losing history.</p></div>
+          <div><span class="t">Documents</span><p class="d">Cost sheets, ID proofs and booking forms attached to the buyer they belong to.</p></div>
+          <div><span class="t">Audit trail</span><p class="d">Who changed what, and when — down to the field.</p></div>
+          <div><span class="t">Custom fields</span><p class="d">Add what your business asks that ours didn't think of.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================= SCORING === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Lead scoring</div>
+      <h2>The list sorts itself</h2>
+      <p>
+        Every lead carries a score out of 100 and a band. Your rules decide what earns
+        points, so a walk-in for a ready-to-move flat outranks a portal click on a
+        launch two years away.
+      </p>
+    </div>
+
+    <div class="grid g4">
+      <div class="feat">
+        <h3>Where it came from</h3>
+        <p>Points for a source or campaign that historically closes.</p>
+      </div>
+      <div class="feat">
+        <h3>What they told you</h3>
+        <p>Budget above a number, a field filled in, a status reached.</p>
+      </div>
+      <div class="feat">
+        <h3>How warm it is</h3>
+        <p>Activity count lifts a score; days of silence pull it down.</p>
+      </div>
+      <div class="feat">
+        <h3>What it triggers</h3>
+        <p>A score crossing a threshold can raise a task or a message.</p>
+      </div>
+    </div>
+
+    <div class="chips" style="margin-top:22px">
+      <span class="chip">VERY HOT</span>
+      <span class="chip">HOT</span>
+      <span class="chip">WARM</span>
+      <span class="chip">COLD</span>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== PROJECTS === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Inventory</div>
+      <h2>Your projects, described the way buyers ask</h2>
+      <p>
+        A proper project master sits behind every lead, so "which project?" is a field
+        you can report on — not a sentence in a remark box.
+      </p>
+    </div>
+
+    <div class="grid g3">
+      <div class="feat">
+        <h3>The legal facts</h3>
+        <p>RERA number, developer name, possession date and current status — ready to move, under construction, new launch.</p>
+      </div>
+      <div class="feat">
+        <h3>The commercial facts</h3>
+        <p>Price band and area band with your unit, plus the configurations actually on offer: 2, 3 and 4 BHK.</p>
+      </div>
+      <div class="feat">
+        <h3>The sales facts</h3>
+        <p>Location, amenities, cover image and gallery, site contact — everything a caller is asked for.</p>
+      </div>
+    </div>
+
+    <div class="plainlist" style="margin-top:34px">
+      <div><span class="t">Leads per project</span><p class="d">Every project shows what it has produced: enquiries, site visits, bookings.</p></div>
+      <div><span class="t">Project-wise reporting</span><p class="d">Compare two towers the way you compare two campaigns.</p></div>
+      <div><span class="t">Landing page per project</span><p class="d">A form tied to one project produces leads already attributed to it.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ====================================================== ASSIGNMENT === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Distribution</div>
+      <h2>A lead reaches somebody within seconds</h2>
+      <p>
+        Rules decide who gets what, the moment it lands — by source, by project, by
+        city, by the hour of the day.
+      </p>
+    </div>
+
+    <div class="grid g3">
+      <div class="feat">
+        <h3>Round robin</h3>
+        <p>Straight rotation across the people you name. Everyone gets their turn.</p>
+      </div>
+      <div class="feat">
+        <h3>Least loaded first</h3>
+        <p>Goes to whoever is carrying the fewest open leads right now.</p>
+      </div>
+      <div class="feat">
+        <h3>Round robin inside a team</h3>
+        <p>Keeps a project or a region with the team that owns it.</p>
+      </div>
+    </div>
+
+    <div class="ruleline">
+      <strong>Placing a lead and taking one away are different rights.</strong>
+      A team leader can hand out unowned enquiries all day and still be unable to pull
+      a lead off a colleague — because in property sales, that argument is about
+      commission.
+    </div>
+  </div>
+</section>
+
+<!-- ============================================== ROLES & PERMISSIONS === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Control</div>
+      <h2>Who sees whose leads — decided once</h2>
+      <p>
+        Two questions are answered separately: what a person may <em>do</em>, and whose
+        records they may do it to. That is why a telecaller can update a lead without
+        ever seeing the whole database.
+      </p>
+    </div>
+
+    <div class="split">
+      <div>
+        <h3 style="font-size:1rem;margin-bottom:14px">Visibility</h3>
+        <div class="scopes">
+          <div class="scope">
+            <span class="nm">OWN</span>
+            <span class="bar" style="width:22%">Own records</span>
+          </div>
+          <div class="scope">
+            <span class="nm">TEAM</span>
+            <span class="bar" style="width:40%">Own + direct team</span>
+          </div>
+          <div class="scope">
+            <span class="nm">TEAM_AND_BELOW</span>
+            <span class="bar" style="width:62%">Team and every team under it</span>
+          </div>
+          <div class="scope">
+            <span class="nm">REGION</span>
+            <span class="bar" style="width:80%">Entire region</span>
+          </div>
+          <div class="scope">
+            <span class="nm">ORGANISATION</span>
+            <span class="bar" style="width:100%">Everyone</span>
+          </div>
+        </div>
+
+        <p style="color:var(--ink-2);font-size:0.9375rem;margin-top:22px">
+          Visibility follows your reporting lines. Promote someone and their view widens
+          with them — no re-sharing, no spreadsheet of exceptions.
+        </p>
+      </div>
+
+      <div>
+        <h3 style="font-size:1rem;margin-bottom:14px">Roles, ready on day one</h3>
+        <div class="roles">
+          <div class="role"><div class="nm">Admin</div><div class="sc">ORGANISATION</div></div>
+          <div class="role"><div class="nm">Business Head</div><div class="sc">ORGANISATION</div></div>
+          <div class="role"><div class="nm">Regional Head</div><div class="sc">REGION</div></div>
+          <div class="role"><div class="nm">Sales Manager</div><div class="sc">TEAM AND BELOW</div></div>
+          <div class="role"><div class="nm">Team Leader</div><div class="sc">TEAM</div></div>
+          <div class="role"><div class="nm">Sales Executive</div><div class="sc">OWN</div></div>
+          <div class="role"><div class="nm">Telecaller</div><div class="sc">OWN</div></div>
+          <div class="role"><div class="nm">Marketing User</div><div class="sc">ORGANISATION</div></div>
+          <div class="role"><div class="nm">Viewer</div><div class="sc">ORGANISATION</div></div>
+        </div>
+
+        <p style="color:var(--ink-2);font-size:0.9375rem;margin-top:18px">
+          Edit any of them, or build your own. One person needing one extra right does
+          not need a whole new role — grant it to them alone, and the screen shows
+          exactly who holds what.
+        </p>
+      </div>
+    </div>
+
+    <div style="margin-top:34px">
+      <h3 style="font-size:1rem;margin-bottom:12px">Lead rights are granular on purpose</h3>
+      <div class="chips">
+        <span class="chip">read</span><span class="chip">create</span><span class="chip">update</span>
+        <span class="chip">delete</span><span class="chip">export</span><span class="chip">import</span>
+        <span class="chip">assign</span><span class="chip">reassign</span><span class="chip">merge</span>
+        <span class="chip">change status</span><span class="chip">change project</span><span class="chip">change source</span>
+      </div>
+      <p style="color:var(--ink-2);font-size:0.9375rem;margin-top:14px;max-width:70ch">
+        Moving a lead to another project, or rewriting its source, decides whose numbers
+        a campaign gets credited with. So those are rights of their own, not something
+        bundled into "edit".
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== COMMS === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">WhatsApp &amp; Email</div>
+      <h2>Automation that tells you the truth</h2>
+      <p>
+        Most tools show a switch. Switch on, assume it works, find out weeks later that
+        nothing ever sent. Here a channel reports one of three states, and only one of
+        them means messages are going out.
+      </p>
+    </div>
+
+    <div class="lights">
+      <div class="light red">
+        <span class="state">Red</span>
+        <h3>Off</h3>
+        <p>The channel is switched off. Nothing sends, and the screen says so plainly.</p>
+      </div>
+      <div class="light amber">
+        <span class="state">Amber</span>
+        <h3>On, but not finished</h3>
+        <p>Switched on and still incomplete — a missing token, an unapproved template, no successful test yet. The remaining items are listed by name.</p>
+      </div>
+      <div class="light green">
+        <span class="state">Green</span>
+        <h3>Live</h3>
+        <p>Configured, tested, and actually delivering. Green is earned by a test that landed — never by the switch alone.</p>
+      </div>
+    </div>
+
+    <div class="ruleline">
+      <strong>Nothing fails silently.</strong> When a message is skipped, the delivery
+      log records the reason in words — channel off, template not approved, no phone
+      number on the lead — instead of leaving a gap you would have to notice yourself.
+    </div>
+
+    <div class="grid g3" style="margin-top:26px">
+      <div class="feat">
+        <h3>Welcome on arrival</h3>
+        <p>The buyer hears from you the minute the enquiry lands, day or night.</p>
+      </div>
+      <div class="feat">
+        <h3>Approved templates</h3>
+        <p>WhatsApp templates and email bodies with merge fields, kept in one place.</p>
+      </div>
+      <div class="feat">
+        <h3>Delivery log</h3>
+        <p>Sent, failed or skipped — per lead, per channel, with the reason attached.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== CAPTURE === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Capture</div>
+      <h2>Wherever the enquiry starts, it lands here</h2>
+      <p>
+        Portals, your website, Facebook and Instagram, walk-ins and the phone —
+        one inbox, deduplicated, attributed.
+      </p>
+    </div>
+
+    <div class="grid g2">
+      <div class="feat">
+        <h3>Forms on your website</h3>
+        <p>
+          Paste one line into any page, or use a hosted form. Each form can be locked to
+          your own domain, carries a spam trap, and can be tied to a project so its leads
+          arrive already attributed. UTM parameters and landing page are captured with
+          every submission.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>Facebook &amp; Instagram Lead Ads</h3>
+        <p>
+          Connect your page and lead forms flow in as they are filled — no CSV download
+          at the end of the week, no leads going cold in an ad account nobody opens.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>Bulk import</h3>
+        <p>
+          Bring a portal export or an old spreadsheet in, map the columns once, and see
+          what matched existing buyers before anything is written.
+        </p>
+      </div>
+      <div class="feat">
+        <h3>Export to Excel</h3>
+        <p>
+          Any list you can see, you can take with you as a real .xlsx file — filters,
+          columns and all.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================================================== INSIGHT === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Insight</div>
+      <h2>Numbers your review meeting actually needs</h2>
+    </div>
+
+    <div class="plainlist">
+      <div><span class="t">Dashboard</span><p class="d">Today's enquiries, follow-ups due, site visits booked, and what moved since yesterday.</p></div>
+      <div><span class="t">Source &amp; campaign</span><p class="d">Cost of a lead is one thing; which source produced bookings is another. Both are here.</p></div>
+      <div><span class="t">Funnel &amp; drop-off</span><p class="d">Where enquiries stall — and how many never reached a site visit.</p></div>
+      <div><span class="t">Targets</span><p class="d">Set them per person, per team, per month; track against them without a spreadsheet.</p></div>
+      <div><span class="t">Performance</span><p class="d">Response time, activity counts, conversion — per executive and per team.</p></div>
+      <div><span class="t">Saved views</span><p class="d">The filter combination you rebuild every morning, saved once.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== TRUST === -->
+<section class="band">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">Built to be trusted</div>
+      <h2>The parts you only notice when they're missing</h2>
+    </div>
+
+    <div class="grid g3">
+      <div class="feat">
+        <h3>Full audit log</h3>
+        <p>Every create, edit, reassignment and deletion recorded with the person and the time.</p>
+      </div>
+      <div class="feat">
+        <h3>Nothing leaves quietly</h3>
+        <p>Exports are a permission, and they are logged. You can tell who took a list out.</p>
+      </div>
+      <div class="feat">
+        <h3>Secure by default</h3>
+        <p>Encrypted integration credentials, protected sessions, rate-limited sign-in, and a real password policy.</p>
+      </div>
+      <div class="feat">
+        <h3>Works on the phone</h3>
+        <p>The whole CRM, not a cut-down version — because your team is on site, not at a desk.</p>
+      </div>
+      <div class="feat">
+        <h3>Runs on ordinary hosting</h3>
+        <p>Standard PHP and MySQL shared hosting. No servers to rent, no per-seat licence to renew.</p>
+      </div>
+      <div class="feat">
+        <h3>Your data stays yours</h3>
+        <p>One database you own, on hosting in your name, exportable any day you ask.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================ TRY === -->
+<section class="band band--tint band--edge">
+  <div class="wrap">
+    <div class="sec-head">
+      <div class="eyebrow">See it yourself</div>
+      <h2>Open the demo and work a real pipeline</h2>
+      <p>
+        A live workspace with three projects and fifteen buyers already at
+        different stages — not screenshots. Change anything you like.
+      </p>
+    </div>
+
+    <div class="split">
+      <div class="creds">
+        <div class="cred">
+          <span class="cl">Sign in at</span>
+          <a class="cv mono" href="https://growvantacrm.online/login">growvantacrm.online/login</a>
+        </div>
+        <div class="cred">
+          <span class="cl">Email</span>
+          <span class="cv mono">demo@growvantacrm.online</span>
+        </div>
+        <div class="cred">
+          <span class="cl">Password</span>
+          <span class="cv mono">GrowDemo@2026</span>
+        </div>
+        <p class="cnote">
+          Signs you in as the company administrator, so every screen in this deck
+          is open to you.
+        </p>
+      </div>
+
+      <div>
+        <div class="plainlist">
+          <div><span class="t">Try the pipeline</span><p class="d">Drag a buyer from Site Visit Done to Negotiation on the board.</p></div>
+          <div><span class="t">Try the permissions</span><p class="d">Open Roles and compare what a Telecaller may do with a Sales Manager.</p></div>
+          <div><span class="t">Try the honesty</span><p class="d">Switch WhatsApp on without configuring it. It goes amber, not green, and tells you exactly what is still missing.</p></div>
+        </div>
+        <p style="color:var(--ink-3);font-size:0.875rem;margin-top:18px">
+          A shared demo, so others may be in it too. It is reset regularly and
+          holds no real customer data.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================================== CLOSE === -->
+<section class="band">
+  <div class="wrap">
+    <div class="close">
+      <h2>Stop losing buyers between the portal and the phone.</h2>
+      <p>
+        Growvanta is set up with your projects, your team and your pipeline — and your
+        first enquiry can land in it today.
+      </p>
+      <div class="pts">
+        <span>Real-estate pipeline, ready</span>
+        <span>Leads assigned in seconds</span>
+        <span>WhatsApp that proves it sent</span>
+        <span>Every number auditable</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">Growvanta CRM — sales overview. Figures shown on the example lead are illustrative.</div>
+</footer>
+
+</body>
+</html>

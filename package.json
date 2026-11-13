@@ -1,0 +1,25 @@
+{
+  "name": "growvanta-crm",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Growvanta CRM — React client and Node/Express API. Convenience scripts only; each half has its own package.json.",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "install:all": "npm --prefix server install && npm --prefix client install",
+    "premigrate": "sh scripts/local-db.sh start",
+    "migrate": "npm --prefix server run migrate",
+    "preseed": "sh scripts/local-db.sh start",
+    "seed": "npm --prefix server run seed",
+    "sweep": "npm --prefix server run sweep",
+    "db:start": "sh scripts/local-db.sh start",
+    "db:stop": "sh scripts/local-db.sh stop",
+    "db:status": "sh scripts/local-db.sh status",
+    "predev:server": "sh scripts/local-db.sh start",
+    "dev:server": "npm --prefix server run dev",
+    "dev:client": "npm --prefix client run dev",
+    "build": "npm --prefix client run build",
+    "test": "npm --prefix server test"
+  }
+}

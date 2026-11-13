@@ -1,0 +1,29 @@
+node_modules/
+dist/
+.env
+.env.*
+!.env.example
+!.env.tidb.example
+*.log
+npm-debug.log*
+
+# Local development database and tooling
+.dev/
+
+# Tenant uploads
+server/uploads/*
+!server/uploads/.gitkeep
+
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# php-edition: never publish the live install's credentials, the real tenant
+# data dump, customer uploads, or the deployment bundles (which carry copies
+# of that dump). These are listed explicitly rather than relying on the
+# patterns above, because this repository is public.
+php-edition/.env
+php-edition/dist/
+php-edition/database/data.sql
+php-edition/uploads/imports/

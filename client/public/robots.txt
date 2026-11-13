@@ -1,0 +1,53 @@
+# Growvanta CRM - https://growvantacrm.online
+#
+# The public pages are meant to be found. Everything behind a login is not,
+# and neither are the machinery paths - a crawler wasting its budget on
+# /api/ is a crawler not reading home.html.
+#
+# Note this is guidance, not a lock. Access control is the application's job;
+# these paths are refused there too, not merely discouraged here.
+
+User-agent: *
+Allow: /home.html
+Allow: /privacy.html
+Allow: /terms.html
+Allow: /presentation.html
+Allow: /technology.html
+Allow: /assets/
+Allow: /css/
+Allow: /js/
+
+Disallow: /api/
+Disallow: /webhooks/
+Disallow: /uploads/
+Disallow: /f/
+Disallow: /embed/
+Disallow: /install-check.php
+
+# AI answer engines. Named explicitly and allowed, because being quoted with
+# attribution is worth more to a young product than being invisible.
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://growvantacrm.online/sitemap.xml

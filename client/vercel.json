@@ -1,0 +1,11 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "rewrites": [
+    { "source": "/api/:path*", "destination": "https://YOUR-API.onrender.com/api/:path*" },
+    { "source": "/webhooks/:path*", "destination": "https://YOUR-API.onrender.com/webhooks/:path*" },
+    { "source": "/f/:path*", "destination": "https://YOUR-API.onrender.com/f/:path*" },
+    { "source": "/embed/:path*", "destination": "https://YOUR-API.onrender.com/embed/:path*" },
+    { "source": "/public-form.js", "destination": "https://YOUR-API.onrender.com/public-form.js" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}
