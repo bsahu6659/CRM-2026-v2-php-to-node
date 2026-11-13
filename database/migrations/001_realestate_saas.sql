@@ -16,8 +16,12 @@
 -- ---------------------------------------------------------------------------
 -- 1. ORGANISATIONS become tenants with identity, branding and lifecycle
 -- ---------------------------------------------------------------------------
+-- is_platform goes in on its own first: TiDB (the free hosted database) does
+-- not let `AFTER is_platform` below name a column added by the same ALTER.
 ALTER TABLE organizations
-  ADD COLUMN is_platform     TINYINT(1)   NOT NULL DEFAULT 0 AFTER slug,
+  ADD COLUMN is_platform     TINYINT(1)   NOT NULL DEFAULT 0 AFTER slug;
+
+ALTER TABLE organizations
   ADD COLUMN company_type    VARCHAR(20)  NOT NULL DEFAULT 'DEVELOPER' AFTER is_platform,
   ADD COLUMN legal_name      VARCHAR(191) NULL AFTER name,
   ADD COLUMN status          VARCHAR(20)  NOT NULL DEFAULT 'ACTIVE' AFTER is_active,
@@ -37,7 +41,12 @@ ALTER TABLE organizations
   ADD COLUMN created_by_id   CHAR(25)     NULL,
   ADD COLUMN suspended_at    DATETIME     NULL,
   ADD COLUMN suspend_reason  VARCHAR(300) NULL,
-  ADD COLUMN project_seq     INT          NOT NULL DEFAULT 100,
+  ADD COLUMN project_seq     INT          NOT NULL DEFAULT 100;
+
+-- Indexes and foreign keys on new columns go in a separate ALTER throughout
+-- these migrations, again because TiDB rejects them in the ALTER that adds
+-- the column. On MySQL the end result is the same.
+ALTER TABLE organizations
   ADD KEY idx_org_type (company_type),
   ADD KEY idx_org_status (status);
 
@@ -193,18 +202,23 @@ ALTER TABLE leads
   ADD COLUMN possession_timeline VARCHAR(40) NULL,
   ADD COLUMN purpose             VARCHAR(20) NULL,
   ADD COLUMN funding             VARCHAR(20) NULL,
-  ADD COLUMN site_visit_at       DATETIME NULL,
-  ADD KEY idx_lead_org_project (organization_id, project_id),
+  ADD COLUMN site_visit_at       DATETIME NULL;
+ALTER TABLE leads
+  ADD KEY idx_lead_org_project (organization_id, project_id);
+ALTER TABLE leads
   ADD CONSTRAINT fk_lead_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL;
 
 ALTER TABLE opportunities
-  ADD COLUMN project_id CHAR(25) NULL,
-  ADD KEY idx_opp_org_project (organization_id, project_id),
+  ADD COLUMN project_id CHAR(25) NULL;
+ALTER TABLE opportunities
+  ADD KEY idx_opp_org_project (organization_id, project_id);
+ALTER TABLE opportunities
   ADD CONSTRAINT fk_opp_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL;
 
 -- Assignment rules can now target a project directly (spec section 17).
 ALTER TABLE assignment_rules
-  ADD COLUMN project_id CHAR(25) NULL,
+  ADD COLUMN project_id CHAR(25) NULL;
+ALTER TABLE assignment_rules
   ADD CONSTRAINT fk_rule_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE CASCADE;
 
 -- ---------------------------------------------------------------------------

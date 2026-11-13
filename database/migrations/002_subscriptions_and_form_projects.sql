@@ -30,10 +30,16 @@ ALTER TABLE organizations
   ADD COLUMN access_blocked        TINYINT(1)   NOT NULL DEFAULT 0,
   ADD COLUMN access_blocked_at     DATETIME     NULL,
   ADD COLUMN access_blocked_reason VARCHAR(300) NULL,
-  ADD COLUMN billing_notes         VARCHAR(500) NULL,
+  ADD COLUMN billing_notes         VARCHAR(500) NULL;
+
+-- Index and foreign key in their own ALTERs: TiDB rejects them in the ALTER
+-- that adds the column (see 001).
+ALTER TABLE organizations
   ADD KEY idx_org_billing (billing_status, access_blocked);
 
 ALTER TABLE web_forms
-  ADD COLUMN project_id CHAR(25) NULL AFTER source_id,
-  ADD KEY idx_form_project (project_id),
+  ADD COLUMN project_id CHAR(25) NULL AFTER source_id;
+ALTER TABLE web_forms
+  ADD KEY idx_form_project (project_id);
+ALTER TABLE web_forms
   ADD CONSTRAINT fk_form_project FOREIGN KEY (project_id) REFERENCES projects(id) ON DELETE SET NULL;

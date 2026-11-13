@@ -20,12 +20,16 @@
 -- MySQL 5.7+ / MariaDB 10.3+ safe: nullable columns, no defaults needed.
 -- ===========================================================================
 
+-- Each foreign key in its own ALTER: TiDB rejects it in the ALTER that adds
+-- the column (see 001).
 ALTER TABLE meta_lead_forms
-  ADD COLUMN project_id CHAR(25) NULL AFTER source_id,
+  ADD COLUMN project_id CHAR(25) NULL AFTER source_id;
+ALTER TABLE meta_lead_forms
   ADD CONSTRAINT fk_metaform_project FOREIGN KEY (project_id)
       REFERENCES projects(id) ON DELETE SET NULL;
 
 ALTER TABLE import_jobs
-  ADD COLUMN project_id CHAR(25) NULL AFTER entity,
+  ADD COLUMN project_id CHAR(25) NULL AFTER entity;
+ALTER TABLE import_jobs
   ADD CONSTRAINT fk_import_project FOREIGN KEY (project_id)
       REFERENCES projects(id) ON DELETE SET NULL;
